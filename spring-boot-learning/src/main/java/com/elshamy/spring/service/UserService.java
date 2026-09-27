@@ -1,5 +1,7 @@
 package com.elshamy.spring.service;
 
+import com.elshamy.spring.dto.UserRequestDTO;
+import com.elshamy.spring.dto.UserResponseDTO;
 import com.elshamy.spring.model.User;
 import com.elshamy.spring.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -15,15 +17,19 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getUsers(){
-        return userRepository.findAll();
-    }
-    public User createUser(User user){
-        return userRepository.save(user);
+    public List<UserResponseDTO> getUsers(){
+        return userRepository.findAll()
+                .stream().map(this::toUserResponseDTO)
+                .toList();
     }
 
-    public User updateUser(User user){
-        Optional<User> savedUser = userRepository.findById(user.getId());
+    public UserResponseDTO createUser(UserRequestDTO userRequestDTO){
+        User user = toUser(userRequestDTO);
+        return toUserResponseDTO(userRepository.save(user));
+    }
+
+    public UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO){
+        Optional<User> savedUser = userRepository.findById(id);
 
         if(savedUser.isEmpty()){
             return null;
@@ -31,9 +37,9 @@ public class UserService {
 
         User updatedUser = savedUser.get();
 
-        updatedUser.setAge(user.getAge());
-        updatedUser.setName(user.getName());
-        return userRepository.save(updatedUser);
+        updatedUser.setName(userRequestDTO.name());
+        updatedUser.setAge(userRequestDTO.age());
+        return toUserResponseDTO(userRepository.save(updatedUser));
     }
 
     public boolean deleteUser(Long id) {
@@ -44,5 +50,16 @@ public class UserService {
 
         userRepository.deleteById(id);
         return true;
+    }
+
+    private UserResponseDTO toUserResponseDTO(User user){
+        return new UserResponseDTO(
+                user.getId(),
+                user.getName(),
+                user.getAge()
+        );
+    }
+    private User toUser(UserRequestDTO userRequestDTO){
+        return new User(userRequestDTO.name(), userRequestDTO.age());
     }
 }
