@@ -2,6 +2,7 @@ package com.elshamy.spring.service;
 
 import com.elshamy.spring.dto.UserRequestDTO;
 import com.elshamy.spring.dto.UserResponseDTO;
+import com.elshamy.spring.exception.ResourceNotFoundException;
 import com.elshamy.spring.model.User;
 import com.elshamy.spring.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class UserService {
         Optional<User> savedUser = userRepository.findById(id);
 
         if(savedUser.isEmpty()){
-            return null;
+            throw new ResourceNotFoundException("User not found");
         }
 
         User updatedUser = savedUser.get();

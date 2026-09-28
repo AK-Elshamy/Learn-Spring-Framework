@@ -4,6 +4,7 @@ package com.elshamy.spring.controller;
 import com.elshamy.spring.dto.UserRequestDTO;
 import com.elshamy.spring.dto.UserResponseDTO;
 import com.elshamy.spring.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,19 +29,15 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO){
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userRequestDTO){
         UserResponseDTO savedUser = userService.createUser(userRequestDTO);
         return ResponseEntity.
                 status(HttpStatus.CREATED).body(savedUser);
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable("id") Long id, @RequestBody UserRequestDTO userRequestDTO){
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserRequestDTO userRequestDTO){
         UserResponseDTO updatedUser = userService.updateUser(id, userRequestDTO);
-
-        if(updatedUser == null){
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(updatedUser);
     }
 
