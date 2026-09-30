@@ -1,9 +1,6 @@
 package com.elshamy.spring.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -49,4 +46,10 @@ public class User {
     public void setAge(int age) {
         this.age = age;
     }
+
+
+
+    @OneToOne
+    @JoinColumn(name = "profile_id", unique = true)
+    private Profile profile;
 }

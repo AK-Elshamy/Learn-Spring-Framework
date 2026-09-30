@@ -50,4 +50,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
+    @ExceptionHandler(Exception.class)
+    private ResponseEntity<ErrorResponse> handleGeneralException(Exception exception){
+        ErrorResponse response = toErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal server error",
+                new HashMap<>()
+                );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
 }
