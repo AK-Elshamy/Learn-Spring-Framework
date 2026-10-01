@@ -1,5 +1,7 @@
 package com.elshamy.jpa;
 
+import com.elshamy.jpa.model.Course;
+import com.elshamy.jpa.model.Post;
 import com.elshamy.jpa.model.Profile;
 import com.elshamy.jpa.model.User;
 import com.elshamy.jpa.repository.ProfileRepository;
@@ -8,6 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.List;
+
 
 @SpringBootApplication
 public class JpaRelationshipsApplication {
@@ -23,17 +28,13 @@ public class JpaRelationshipsApplication {
     ) {
         return args -> {
 
-            Profile profile =
-                    new Profile("Software Engineering");
-
-
-
-            User user =
-                    new User("Mohamed");
-
-            user.setProfile(profile);
-
-            userRepository.save(user);
+            User abdo = new User("Abdulrhman");
+            abdo.setProfile(new Profile("Abdo Profile"));
+            Course course = new Course("JAVA BackEnd");
+            abdo.addCourse(course);
+            Post post = new Post("Post #1");
+            abdo.addPost(post);
+            userRepository.save(abdo);
         };
     }
 }
