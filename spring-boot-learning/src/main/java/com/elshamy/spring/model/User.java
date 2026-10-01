@@ -47,7 +47,13 @@ public class User {
         this.age = age;
     }
 
+    public Profile getProfile() {
+        return profile;
+    }
 
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
 
     @OneToOne
     @JoinColumn(name = "profile_id", unique = true)

@@ -19,9 +19,12 @@ public class UserService {
     }
 
     public List<UserResponseDTO> getUsers(){
+
+
         return userRepository.findAll()
                 .stream().map(this::toUserResponseDTO)
                 .toList();
+
     }
 
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO){
@@ -37,6 +40,7 @@ public class UserService {
         }
 
         User updatedUser = savedUser.get();
+
 
         updatedUser.setName(userRequestDTO.name());
         updatedUser.setAge(userRequestDTO.age());

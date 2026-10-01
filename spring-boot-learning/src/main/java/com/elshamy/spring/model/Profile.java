@@ -1,10 +1,7 @@
 package com.elshamy.spring.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Profile {
@@ -29,5 +26,16 @@ public class Profile {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    @OneToOne(mappedBy = "profile")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
