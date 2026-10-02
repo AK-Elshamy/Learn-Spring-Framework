@@ -6,6 +6,8 @@ import com.elshamy.jpa.model.Profile;
 import com.elshamy.jpa.model.User;
 import com.elshamy.jpa.repository.ProfileRepository;
 import com.elshamy.jpa.repository.UserRepository;
+import com.elshamy.jpa.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.SpringApplication;
@@ -23,18 +25,12 @@ public class JpaRelationshipsApplication {
 
     @Bean
     CommandLineRunner runner(
-            UserRepository userRepository,
-            ProfileRepository profileRepository
+            UserService userService,
+            UserRepository userRepository
     ) {
         return args -> {
 
-            User abdo = new User("Abdulrhman");
-            abdo.setProfile(new Profile("Abdo Profile"));
-            Course course = new Course("JAVA BackEnd");
-            abdo.addCourse(course);
-            Post post = new Post("Post #1");
-            abdo.addPost(post);
-            userRepository.save(abdo);
+            userService.testJPQL(4L);
         };
     }
 }
