@@ -30,7 +30,8 @@ public class JpaRelationshipsApplication {
     ) {
         return args -> {
 
-            userService.testJPQL(4L);
+            System.out.println("\n\n");
+            userService.testSpecification();
         };
     }
 }
